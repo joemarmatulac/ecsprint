@@ -39,40 +39,30 @@ package com.ecs.printer;
 
 public class MatrixMain {
     public static void main(String[] args) {
-//        for (int x = 0; x < 3; x++) {
             ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\testing", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
             if (escp.initialize()) {
                 escp.setCharacterSet(ESCPrinter.USA);
-                escp.select15CPI(); //15 characters per inch printing
-                printReceipt(escp);
+                escp.select15CPI();
+                for(int x = 0; x < 6; x++){
+                    printReceipt(escp);
+                }
+                escp.close();
             } else
                 System.out.println("Couldn't open stream to printer");
-//        }
     }
 
     private static void printReceipt(ESCPrinter escp) {
-//        escp.setCharacterSet(ESCPrinter.USA);
-//        escp.select15CPI(); //15 characters per inch printing
-        escp.advanceVertical(0); //go down 5cm
-        escp.setAbsoluteHorizontalPosition(0); //5cm to the right
         System.out.println("Start printing");
-        escp.print("\n\n  011/011-11-111  November 2021  011/011-11-111  November 2021");
-        escp.print("\n\n  JOEMAR MATULAC\t\t JOEMAR MATULAC");
-        escp.print("\n  NOCECO VILLAGE KABANKALAN CITY NOCECO VILLAGE KABANKALAN CITY");
-        escp.print("\n\n\n\t\t     6     777.00\t\t     6     777.00");
-        escp.print("\n\t\t\t100.00\t\t\t\t   100.00");
-        escp.print("\n");
-        escp.print("\n\t\t\t777.00\t\t\t\t   777.00");
-        escp.print("\n\t\t\t77.70\t\t\t\t   77.70");
-        escp.print("\n");
-        escp.print("\n");
-        escp.print("\n\t\t\t854.70\t\t\t\t   854.70");
-        escp.bold(true);
-        escp.print("\n\n\tAmount Paid\t  854.70  Amount Paid\t       854.70");
-        escp.print("\n\n\n");
-        escp.advanceVertical(1);
-        escp.close(); //close stream
-        System.out.println("End print");
+        escp.print(String.format("\n\n  %-16s%-16s %-16s%-16s", "444/011-12-001", "NOVEMBER 2021", "999/011-12-001", "NOVEMBER 2021"));
+        escp.print(String.format("\n\n  %-32s %-32s", "HELLO KITTY", "HELLO KITTY"));
+        escp.print(String.format("\n  %-32s %-32s", "NOCECO VILLAGE KABANKALAN CITY", "NOCECO VILLAGE KABANKALAN CITY"));
+        escp.print(String.format("\n\n\n  %19s%10s %22s%10s", "8", "777.00","8", "777.00"));
+        escp.print(String.format("\n  %29s %32s", "214.50", "214.50"));
+        escp.print(String.format("\n\n  %29s %32s", "777.00", "777.00"));
+        escp.print(String.format("\n  %29s %32s", "77.70", "77.70"));
+        escp.print(String.format("\n\n\n  %29s %32s", "1068.50", "1068.50"));
+        escp.print(String.format("\n\n  Amount Paid: %16s    Amount Paid: %16s", "1068.50", "1068.50"));
+        escp.print("\n\n\n\n\n");
     }
 
     public MatrixMain(){
