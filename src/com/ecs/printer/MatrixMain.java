@@ -39,31 +39,42 @@ package com.ecs.printer;
 
 public class MatrixMain {
     public static void main(String[] args) {
-        ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\testing", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
-        if (escp.initialize()) {
-            escp.setCharacterSet(ESCPrinter.USA);
-            escp.select15CPI(); //15 characters per inch printing
-            escp.advanceVertical(0); //go down 5cm
-            escp.setAbsoluteHorizontalPosition(0); //5cm to the right
-            escp.bold(true);
-            escp.print("011-12-001\t November 2021\t011-12-001\t November 2021\t");
-            escp.print("\nMARY ALEXENE MATULAC\t MARY ALEXENE MATULAC");
-            escp.print("\nNOCECO VILLAGE\t NOCECO VILLAGE");
-            escp.print("\nNOCECO VILLAGE\t NOCECO VILLAGE");
-            escp.print("\nBEFORE DUE DATE 195.00\t BEFORE DUE DATE 195.00");
-            escp.print("\nAFTER DUE DATE 214.00\t BEFORE DUE DATE 214.00");
-            escp.print("\nRECEIVED 195.00\t RECEIVED 195.00");
-            escp.print("\nTHREE LITTLE BIRDS\t THREE LITTLE BIRDS");
-            escp.bold(false);
-            escp.advanceVertical(1);
-            escp.setAbsoluteHorizontalPosition(5); //back to 5cm on horizontal axis
-            escp.print("Very simple and easy!");
-            escp.formFeed(); //eject paper
-            escp.close(); //close stream
-        }
-        else
-            System.out.println("Couldn't open stream to printer");
+//        for (int x = 0; x < 3; x++) {
+            ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\testing", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
+            if (escp.initialize()) {
+                escp.setCharacterSet(ESCPrinter.USA);
+                escp.select15CPI(); //15 characters per inch printing
+                printReceipt(escp);
+            } else
+                System.out.println("Couldn't open stream to printer");
+//        }
     }
+
+    private static void printReceipt(ESCPrinter escp) {
+//        escp.setCharacterSet(ESCPrinter.USA);
+//        escp.select15CPI(); //15 characters per inch printing
+        escp.advanceVertical(0); //go down 5cm
+        escp.setAbsoluteHorizontalPosition(0); //5cm to the right
+        System.out.println("Start printing");
+        escp.print("\n\n  011/011-11-111  November 2021  011/011-11-111  November 2021");
+        escp.print("\n\n  JOEMAR MATULAC\t\t JOEMAR MATULAC");
+        escp.print("\n  NOCECO VILLAGE KABANKALAN CITY NOCECO VILLAGE KABANKALAN CITY");
+        escp.print("\n\n\n\t\t     6     777.00\t\t     6     777.00");
+        escp.print("\n\t\t\t100.00\t\t\t\t   100.00");
+        escp.print("\n");
+        escp.print("\n\t\t\t777.00\t\t\t\t   777.00");
+        escp.print("\n\t\t\t77.70\t\t\t\t   77.70");
+        escp.print("\n");
+        escp.print("\n");
+        escp.print("\n\t\t\t854.70\t\t\t\t   854.70");
+        escp.bold(true);
+        escp.print("\n\n\tAmount Paid\t  854.70  Amount Paid\t       854.70");
+        escp.print("\n\n\n");
+        escp.advanceVertical(1);
+        escp.close(); //close stream
+        System.out.println("End print");
+    }
+
     public MatrixMain(){
 
     }
