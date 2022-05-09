@@ -38,34 +38,62 @@ DAMAGE.
 package com.ecs.printer;
 
 public class MatrixMain {
+    private static String accntNum = "011/011-12-001";
+    private static String targetMonth = "April 2022";
+    private static String accntName = "MILDRED BACUCANG";
+    private static String address = "FZO SUB KAB CITY NEG. OCC.";
+    private static String totalReading = "15";
+    private static String totalAmount = "309.50";
+    private static String arrears = "0.00";
+    private static String totalBill = "";
+    private static String penalty = "38.95";
+    private static String totalDue = "428.45";
+    private static String amountPaidFormatted = "428.45";
+    private static String datePaid = "Apr 29, 2022 09:11";
     public static void main(String[] args) {
-            ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\testing", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
-            if (escp.initialize()) {
-                escp.setCharacterSet(ESCPrinter.USA);
-                escp.select15CPI();
-                for(int x = 0; x < 6; x++){
-                    printReceipt(escp);
-                }
-                escp.close();
-            } else
-                System.out.println("Couldn't open stream to printer");
+        ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\p2f", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
+        if (escp.initialize()) {
+//            escp.setCharacterSet(ESCPrinter.USA);
+//            escp.select15CPI();
+//            for (int x = 0; x < 1; x++) {
+                printReceipt(escp);
+//            }
+            escp.close();
+        } else {
+            System.out.println("Couldn't open stream to printer");
+        }
+        printToConsole();
     }
 
     private static void printReceipt(ESCPrinter escp) {
         System.out.println("Start printing");
-        escp.print(String.format("\n\n  %-16s%-16s %-16s%-16s", "444/011-12-001", "NOVEMBER 2021", "999/011-12-001", "NOVEMBER 2021"));
-        escp.print(String.format("\n\n  %-32s %-32s", "HELLO KITTY", "HELLO KITTY"));
-        escp.print(String.format("\n  %-32s %-32s", "NOCECO VILLAGE KABANKALAN CITY", "NOCECO VILLAGE KABANKALAN CITY"));
-        escp.print(String.format("\n\n\n  %19s%10s %22s%10s", "8", "777.00","8", "777.00"));
-        escp.print(String.format("\n  %29s %32s", "214.50", "214.50"));
-        escp.print(String.format("\n\n  %29s %32s", "777.00", "777.00"));
-        escp.print(String.format("\n  %29s %32s", "77.70", "77.70"));
-        escp.print(String.format("\n\n\n  %29s %32s", "1068.50", "1068.50"));
-        escp.print(String.format("\n\n  Amount Paid: %16s    Amount Paid: %16s", "1068.50", "1068.50"));
-        escp.print("\n\n\n\n\n");
+        escp.print(String.format("\n\n\n\n\n  %-67s %-32s", accntName, targetMonth));
+        escp.print(String.format("\n  %-42s", address));
+        escp.print(String.format("\n                    %-50s%-16s", accntNum, targetMonth));
+        escp.print(String.format("\n\n\n\n                    %-50s%-16s", "Consumption (cu.m.) - " + totalReading, totalAmount));
+        escp.print(String.format("\n                    %-50s%-16s", "Arrears", arrears));
+        escp.print(String.format("\n                    %-50s%-16s", "Penalty", penalty));
+        escp.print(String.format("\n\n\n\n\n\n                          %50s", totalDue));
+        escp.print(String.format("\n                    %-50s%-16s", "Amount Paid", amountPaidFormatted));
+        escp.print(String.format("\n                       %-50s%-16s", datePaid, ""));
+        escp.print(String.format("\n\n\n\n"));
+
+//      For testing only
+//        printToConsole();
+    }
+
+    private static void printToConsole() {
+        System.out.println(String.format("\n\n\n\n  %-44s %-32s", accntName, targetMonth));
+        System.out.println(String.format("\n  %-42s", address));
+        System.out.println(String.format("\n\n                    %-27s%-16s", accntNum, targetMonth));
+        System.out.println(String.format("\n\n\n\n                    %-27s%-16s", "Consumption (cu.m.) - " + totalReading, totalAmount));
+        System.out.println(String.format("\n                    %-27s%-16s", "Arrears", arrears));
+        System.out.println(String.format("\n                    %-27s%-16s", "Penalty", penalty));
+        System.out.println(String.format("\n\n\n\n\n\n\n\n\n\n\n\n                    %33s", totalDue));
+        System.out.println(String.format("\n\n\n\n                    %-27s%-16s", datePaid, ""));
+        System.out.println(String.format("\n\n\n\n"));
     }
 
     public MatrixMain(){
-
     }
 }
