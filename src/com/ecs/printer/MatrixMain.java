@@ -40,8 +40,8 @@ package com.ecs.printer;
 public class MatrixMain {
     private static String accntNum = "011/011-12-001";
     private static String targetMonth = "April 2022";
-    private static String accntName = "MILDRED BACUCANG";
-    private static String address = "FZO SUB KAB CITY NEG. OCC.";
+    private static String accntName = "00LDRED BACUCAXX";
+    private static String address = "00O SUB KAB CITY NEG. XXX.";
     private static String totalReading = "15";
     private static String totalAmount = "309.50";
     private static String arrears = "0.00";
@@ -53,11 +53,9 @@ public class MatrixMain {
     public static void main(String[] args) {
         ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\p2f", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
         if (escp.initialize()) {
-//            escp.setCharacterSet(ESCPrinter.USA);
-//            escp.select15CPI();
-//            for (int x = 0; x < 1; x++) {
+            for (int x = 0; x < 4; x++) {
                 printReceipt(escp);
-//            }
+            }
             escp.close();
         } else {
             System.out.println("Couldn't open stream to printer");
@@ -76,7 +74,7 @@ public class MatrixMain {
         escp.print(String.format("\n\n\n\n\n\n                          %50s", totalDue));
         escp.print(String.format("\n                    %-50s%-16s", "Amount Paid", amountPaidFormatted));
         escp.print(String.format("\n                       %-50s%-16s", datePaid, ""));
-        escp.print(String.format("\n\n\n\n"));
+        escp.print(String.format("\n\n\n\n\n\n"));
 
 //      For testing only
 //        printToConsole();
