@@ -60,38 +60,74 @@ public class MatrixMain {
         } else {
             System.out.println("Couldn't open stream to printer");
         }
-        printToConsole();
+        sendNewBillToPrinter(escp);
+        System.out.println("----------");
+        sendToPrinterOldBill(escp);
     }
 
     private static void printReceipt(ESCPrinter escp) {
         System.out.println("Start printing");
-        escp.print(String.format("\n\n\n\n\n  %-67s %-32s", accntName, targetMonth));
-        escp.print(String.format("\n  %-42s", address));
-        escp.print(String.format("\n                    %-50s%-16s", accntNum, targetMonth));
-        escp.print(String.format("\n\n\n\n                    %-50s%-16s", "Consumption (cu.m.) - " + totalReading, totalAmount));
-        escp.print(String.format("\n                    %-50s%-16s", "Arrears", arrears));
-        escp.print(String.format("\n                    %-50s%-16s", "Penalty", penalty));
-        escp.print(String.format("\n\n\n\n\n\n                          %50s", totalDue));
-        escp.print(String.format("\n                    %-50s%-16s", "Amount Paid", amountPaidFormatted));
-        escp.print(String.format("\n                       %-50s%-16s", datePaid, ""));
+        sendNewBillToPrinter(escp);
+    }
+
+    private static void sendNewBillToPrinter(ESCPrinter escp) {
+        String nameTargetMonth = String.format("\n\n\n\n\n  %-67s %-32s", "AYATOLLA KAY", "MAY 2022");
+        String addressValue = String.format("\n  %-42s", "FZO SUBD. BRGY 3 KABANKALAN CITY NEG OCC");
+        String accountNoDueDate = String.format("\n                    %-50s%-16s", "011-12-111", "MAY 10, 2022");
+        String readingTotalBill = String.format("\n\n\n\n                    %-50s%-16s", "Consumption (cu.m.) - "
+                + "10", "195");
+        String arrearsValue = String.format("\n                    %-50s%-16s", "Arrears", "0.00");
+        String penalty = String.format("\n                    %-50s%-16s", "Penalty", "195.00");
+        String totalDueValue = String.format("\n                    %-50s%-16s", "Total Due", "214.50");
+        String formattedAmountPaid = String.format("\n                    %-50s%-16s", "Amount Paid", "214.50");
+        String datePaidUser = String.format("\n\n\n\n\n\n                       %-25s%-16s", "MAY 12, 2022", "NONOY AND CHONA");
+        escp.print(nameTargetMonth);
+        escp.print(addressValue);
+        escp.print(accountNoDueDate);
+        escp.print(readingTotalBill);
+        escp.print(arrearsValue);
+        escp.print(penalty);
+        escp.print(totalDueValue);
+        escp.print(formattedAmountPaid);
+        escp.print(datePaidUser);
         escp.print(String.format("\n\n\n\n\n\n"));
-
-//      For testing only
-//        printToConsole();
+//                    TODO remove me: For test print only
+        System.out.println(nameTargetMonth);
+        System.out.println(addressValue);
+        System.out.println(accountNoDueDate);
+        System.out.println(readingTotalBill);
+        System.out.println(arrearsValue);
+        System.out.println(penalty);
+        System.out.println(totalDueValue);
+        System.out.println(formattedAmountPaid);
+        System.out.println(datePaidUser);
     }
 
-    private static void printToConsole() {
-        System.out.println(String.format("\n\n\n\n  %-44s %-32s", accntName, targetMonth));
-        System.out.println(String.format("\n  %-42s", address));
-        System.out.println(String.format("\n\n                    %-27s%-16s", accntNum, targetMonth));
-        System.out.println(String.format("\n\n\n\n                    %-27s%-16s", "Consumption (cu.m.) - " + totalReading, totalAmount));
-        System.out.println(String.format("\n                    %-27s%-16s", "Arrears", arrears));
-        System.out.println(String.format("\n                    %-27s%-16s", "Penalty", penalty));
-        System.out.println(String.format("\n\n\n\n\n\n\n\n\n\n\n\n                    %33s", totalDue));
-        System.out.println(String.format("\n\n\n\n                    %-27s%-16s", datePaid, ""));
-        System.out.println(String.format("\n\n\n\n"));
-    }
+    private static void sendToPrinterOldBill(ESCPrinter escp){
+        escp.setCharacterSet(ESCPrinter.USA);
+        escp.select15CPI();
+        escp.print(String.format("\n\n  %-16s%-16s %-16s%-16s", "111-12-001", "May 2022", "111-12-001", "May 2022"));
+        escp.print(String.format("\n\n  %-32s %-32s", "AYATOLLA KUYA", "AYATOLLA KUYA"));
+        escp.print(String.format("\n  %-32s %-32s", "FZO BLDG BRGY 1 KABANKALAN CITY NEG OCC", "FZO BLDG BRGY 1 KABANKALAN CITY NEG OCC"));
+        escp.print(String.format("\n\n\n  %19s%10s %22s%10s", "10", "195.00", "10", "195.00"));
+        escp.print(String.format("\n  %29s %32s", "0.00", "0.00"));
+        escp.print(String.format("\n\n  %29s %32s", "195.00", "195.00"));
+        escp.print(String.format("\n  %29s %32s", "19.50", "19.50" ));
+        escp.print(String.format("\n\n\n  %29s %32s", "214.50", "214.50"));
+        escp.print(String.format("\n\n  Amount Paid: %16s    Amount Paid: %16s", "214.50", "214.50"));
+        escp.print(String.format("\n  Date Paid: %16s  Date Paid: %16s", "May 15, 2021 9:45AM", "May 15, 2021 9:45AM"));
+        escp.print("\n\n\n\n");
 
-    public MatrixMain(){
+        System.out.println(String.format("\n\n  %-16s%-16s %-16s%-16s", "111-12-001", "May 2022", "111-12-001", "May 2022"));
+        System.out.println(String.format("\n\n  %-32s %-32s", "AYATOLLA KUYA", "AYATOLLA KUYA"));
+        System.out.println(String.format("\n  %-32s %-32s", "FZO BLDG BRGY 1 KABANKALAN CITY NEG OCC", "FZO BLDG BRGY 1 KABANKALAN CITY NEG OCC"));
+        System.out.println(String.format("\n\n\n  %19s%10s %22s%10s", "10", "195.00", "10", "195.00"));
+        System.out.println(String.format("\n  %29s %32s", "0.00", "0.00"));
+        System.out.println(String.format("\n\n  %29s %32s", "195.00", "195.00"));
+        System.out.println(String.format("\n  %29s %32s", "19.50", "19.50" ));
+        System.out.println(String.format("\n\n\n  %29s %32s", "214.50", "214.50"));
+        System.out.println(String.format("\n\n  Amount Paid: %16s    Amount Paid: %16s", "214.50", "214.50"));
+        System.out.println(String.format("\n  Date Paid: %16s  Date Paid: %16s", "May 15, 2021 9:45AM", "May 15, 2021 9:45AM"));
     }
+    public MatrixMain(){}
 }
