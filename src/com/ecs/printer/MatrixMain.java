@@ -52,17 +52,22 @@ public class MatrixMain {
     private static String datePaid = "Apr 29, 2022 09:11";
     public static void main(String[] args) {
         ESCPrinter escp = new ESCPrinter("\\\\DESKTOP-43VPATB\\p2f", false); //create ESCPrinter on network location \\computer\sharename, 9pin printer
-        if (escp.initialize()) {
-            for (int x = 0; x < 4; x++) {
-                printReceipt(escp);
-            }
+//        if (escp.initialize()) {
+//            for (int x = 0; x < 4; x++) {
+//                printReceipt(escp);
+//            }
+//            escp.close();
+//        } else {
+//            System.out.println("Couldn't open stream to printer");
+//        }
+//        sendNewBillToPrinter(escp);
+        if(escp.initialize()){
+            sendToPrinterOldBill(escp);
+//            sendToPrinterOldBill(escp);
+//            sendNewBillToPrinter(escp);
+//            sendNewBillToPrinter(escp);
             escp.close();
-        } else {
-            System.out.println("Couldn't open stream to printer");
         }
-        sendNewBillToPrinter(escp);
-        System.out.println("----------");
-        sendToPrinterOldBill(escp);
     }
 
     private static void printReceipt(ESCPrinter escp) {
@@ -80,7 +85,7 @@ public class MatrixMain {
         String penalty = String.format("\n                    %-50s%-16s", "Penalty", "195.00");
         String totalDueValue = String.format("\n                    %-50s%-16s", "Total Due", "214.50");
         String formattedAmountPaid = String.format("\n                    %-50s%-16s", "Amount Paid", "214.50");
-        String datePaidUser = String.format("\n\n\n\n\n\n                       %-25s%-16s", "MAY 12, 2022", "NONOY AND CHONA");
+        String datePaidUser = String.format("\n\n\n\n\n\n\n                       %-25s%-16s", "MAY 12, 2022", "NONOY AND CHONA");
         escp.print(nameTargetMonth);
         escp.print(addressValue);
         escp.print(accountNoDueDate);
@@ -90,7 +95,7 @@ public class MatrixMain {
         escp.print(totalDueValue);
         escp.print(formattedAmountPaid);
         escp.print(datePaidUser);
-        escp.print(String.format("\n\n\n\n\n\n"));
+        escp.print(String.format("\n\n\n\n\n"));
 //                    TODO remove me: For test print only
         System.out.println(nameTargetMonth);
         System.out.println(addressValue);
